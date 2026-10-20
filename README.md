@@ -4,6 +4,11 @@ Does FDA enforcement go where product-safety problems actually occur? This proje
 
 Built for **BA780** at Boston University Questrom School of Business (Team A06).
 
+## Contributors
+
+Team A06, BA780, Boston University Questrom School of Business:
+Malak Taoujni, Filip Handjiski, Fan-yu Chiu, Rislyn Raja, Aryan Bajaj
+
 ## Key Findings
 
 - **Recalls are getting more dangerous.** The share of recall events rated Class I (risk of serious harm or death) nearly doubled, from 10.4% in 2013 to 19.6% in 2025, even as total recall events fell.
@@ -90,11 +95,6 @@ You can also open the notebook directly in Google Colab.
 - Add FDA inspection and facility-size data
 - Back-test the early-warning score on past years to see whether it would have flagged facilities before their recall spikes
 - Compare outcomes for facilities that did and did not receive FDA actions
-
-## Contributors
-
-Team A06, BA780, Boston University Questrom School of Business:
-Malak Taoujni, Filip Handjiski, Fan-yu Chiu, Rislyn Raja, Aryan Bajaj
 
 ## License
 
