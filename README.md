@@ -3,6 +3,7 @@
 **Python · pandas · NumPy · Matplotlib · Google Colab**
 
 Team project, **BA780: Introduction to Data Analytics**, MS Business Analytics, Boston University Questrom School of Business (Fall 2026)
+
 **Team A06:** **Filip Handjiski**,Malak Taoujni, Fan-yu Chiu, Rislyn Raja, Aryan Bajaj
 
 ---
