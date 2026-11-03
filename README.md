@@ -16,9 +16,9 @@ The FDA has a limited number of inspectors and must choose which facilities to i
 
 ## 2. Why It Matters
 
-- **Public safety:** Class I recalls involve a serious risk of harm or death. If enforcement misses them, unsafe products stay on the market longer.
-- **Resource allocation:** with limited inspectors, every inspection sent to a low-risk facility is one not sent to a high-risk facility.
-- **Industry risk:** manufacturers need to know which products and recall histories draw FDA action.
+- **Public safety:** Class I recalls involve a serious risk of harm or death. If enforcement misses them, unsafe products stay on the market longer and demonstrate a safety threat to consumers.
+- **Resource allocation:** With limited inspectors, every inspection sent to a low-risk facility is one not sent to a high-risk facility. Data-driven prioritization ensures that enforcement resources are allocated where they can prevent the greatest harm.
+- **Industry risk:** Manufacturers need to know which products and recall histories draw FDA action. This insight enables them to strengthen quality controls proactively and reduce regulatory and financial risk.
 
 ## 3. Data
 
