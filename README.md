@@ -1,101 +1,101 @@
-# FDA Recall & Compliance Action Analysis
+# FDA Recall & Enforcement Analysis: Is the FDA Targeting the Riskiest Facilities?
 
-Does FDA enforcement go where product-safety problems actually occur? This project joins roughly 280K FDA records, 104,083 recall product rows (37,623 recall events) and 177,252 compliance actions, by facility ID to compare where recalls happen with where the FDA takes action, and answers 15 questions about recall trends, severity, causes, enforcement and geography.
+**Python · pandas · Matplotlib · Data Cleaning · Data Integration · Exploratory Data Analysis**
 
-Built for **BA780** at Boston University Questrom School of Business (Team A06).
+> **TL;DR:** This project links ~280K FDA records, covering product recalls and compliance actions, at the facility level to test whether the FDA's limited enforcement resources go where the most dangerous safety problems are. They don't, fully. Dangerous recalls nearly **doubled as a share of all recalls (10.4% → 19.6%)**, but enforcement **barely responds to severity** and usually arrives **after recalls have already peaked**. The analysis ends with a data-driven early-warning approach for prioritizing inspections.
 
-## Contributors
+Team project for **BA780: Introduction to Data Analytics**, MS Business Analytics, Boston University Questrom School of Business (Team A06, Fall 2026).
 
-Team A06, BA780, Boston University Questrom School of Business:
-Malak Taoujni, Filip Handjiski, Fan-yu Chiu, Rislyn Raja, Aryan Bajaj
+---
 
-## Key Findings
+## The Business Problem
 
-- **Recalls are getting more dangerous.** The share of recall events rated Class I (risk of serious harm or death) nearly doubled, from 10.4% in 2013 to 19.6% in 2025, even as total recall events fell.
-- **Food drives the most dangerous recalls.** Food/Cosmetics accounts for 61% of all Class I recalls, and undeclared allergens, Salmonella and Listeria cause 58% of them.
-- **Enforcement follows recall volume, not severity, and arrives late.** The FDA action rate rises from 13.5% (1 recall event) to 46.4% (100+), but barely differs by severity (20.0% vs. 15.3%). Recalls peak in the year of the first action and fall 63% within three years.
-- **Gaps remain.** Medical devices are 40.5% of non-tobacco recall events but only 15.2% of FDA actions, and non-tobacco warning letters fell from 779 (2011) to 500 (2025).
+The FDA has a limited number of inspectors and must decide which facilities to inspect and discipline. If enforcement doesn't follow risk, unsafe facilities can keep producing recalls while resources go elsewhere.
 
-### Part 1: Team Assignment (Q1–Q5)
+**Question:** Do FDA compliance actions (warning letters, seizures, injunctions) reach the facilities and product types where the most serious safety problems actually happen?
+
+**Who this matters to:**
+- **Regulators:** where to focus limited inspection resources
+- **Manufacturers and compliance teams:** which products, recall causes and recall histories carry the most enforcement risk
+- **Consumers and policymakers:** whether product safety is improving or getting worse
+
+---
+
+## Key Results
+
+| Finding | Evidence | Why it matters |
+|---|---|---|
+| **Recalls are getting more dangerous** | Class I (risk of serious harm or death) share of recall events rose from **10.4% to 19.6%** (2013–2025), while total recall events fell 42% | Fewer recalls, but a larger share are life-threatening |
+| **Food drives the most dangerous recalls** | Food/Cosmetics = **61%** of all Class I recalls; undeclared allergens, Salmonella and Listeria cause **58%** of them | A few preventable problems account for most of the risk |
+| **Enforcement follows volume, not severity** | Action rate rises from **13.5% to 46.4%** with recall count, but is only **20.0% vs. 15.3%** for facilities with vs. without a Class I recall | The most dangerous recalls aren't prioritized |
+| **Enforcement arrives late** | Recalls per facility **rise ~2.4x the year before** the FDA's first action, peak in the action year, then fall **63%** within three years | There's a warning signal ahead of the FDA's response, so earlier action is possible |
+| **Coverage gaps remain** | Devices = **40.5%** of recall events but **15.2%** of actions; **53.6%** of facilities with 100+ recalls were never acted on; non-tobacco warning letters fell 779 → 500 (2011–2025) | Specific product types, facilities and states (e.g., Virginia, Minnesota) are under-enforced |
+
+---
+
+## Business Impact & Recommendations
+
+The findings point to a shift from **reacting to recall spikes** to **predicting them**. Under the same budget, that would let the FDA reach high-risk facilities sooner.
+
+| # | Recommendation | Supporting evidence | Impact / Feasibility |
+|---|---|---|---|
+| 1 | **Recall-based early-warning score:** flag facilities with rising or Class I recalls for inspection before recalls peak | Recalls climb in the 1–2 years before action | High / High |
+| 2 | **Target food inspections on allergen controls and pathogen testing** | These 3 causes = 58% of Class I recalls | High / Medium |
+| 3 | **Increase medical device oversight** | 40.5% of recall events vs. 15.2% of actions | High / Medium |
+| 4 | **Review high-recall facilities and under-enforced states** | 53.6% of 100+ recall facilities never acted on | Medium / High |
+
+---
+
+## Approach
+
+```
+Raw FDA data (2 datasets, ~280K rows)
+   → Clean: hidden missing values, data types, IDs, dates
+   → Restructure: 104,083 product rows → 37,623 unique recall events
+   → Integrate: join recalls + actions per facility (FEI Number)
+   → Analyze: 15 business questions, 15 visualizations
+   → Recommend: 4 prioritized, data-backed actions
+```
+
+**Key analytical decisions:**
+- **Counted recall events, not product rows.** One recall can cover dozens of products, so counting rows would overstate recalls ~2.8x.
+- **Handled skewed data.** Most facilities have 1 recall but one has 317, so the analysis uses medians, distributions and repeat-recall rates instead of misleading averages.
+- **Isolated the signal.** Excluded tobacco, which makes up 94% of compliance actions and would otherwise hide all other enforcement patterns.
+- **Turned free text into categories.** Classified recall reasons into 11 groups with keyword matching.
+- **Ran a time-based event study.** Measured recalls 3 years before and after each facility's first FDA action (735 facilities).
+
+---
+
+## Skills Demonstrated
+
+- **Data cleaning:** detecting placeholder missing values, type conversion, deduplication, outlier assessment
+- **Data integration:** joining two independent government datasets on a shared facility ID
+- **Exploratory analysis:** trend, distribution, cross-tab and before/after analysis with pandas
+- **Data visualization:** 15 Matplotlib charts (line charts, grouped/stacked bars, heat map)
+- **Business communication:** translating findings into prioritized recommendations, with caveats on each result
+
+---
+
+## Detailed Findings (15 Questions)
+
+<details>
+<summary><b>Part 1: Recalls vs. Enforcement (Q1–Q5)</b></summary>
 
 | # | Question | Finding |
 |---|----------|---------|
 | 1 | How have recalls changed over time? | Recall events peaked at 3,652 in 2013 and fell to a low of 2,015 in 2022. |
-| 2 | Do the product types with the most recalls also get the most FDA actions? (excl. tobacco, 2013-2025) | No. Medical devices were 40.5% of recall events but only 15.2% of FDA actions. Food/Cosmetics got the largest share of actions (38.8%). |
-| 3 | Do the states with the most recalls also get the most actions? | California leads both (12.6% of recall events, 16.7% of actions). New Jersey, Massachusetts and Minnesota have a larger share of recalls than actions. |
-| 4 | Do facilities that ever had a compliance action have more recalls than those that never did? | Yes. The median is 1 recall event in both groups (the data is skewed), but 49.4% of the 1,724 facilities with an action had repeat recalls vs. 34.5% of the 8,507 without one. |
-| 5 | Which product types get the harshest actions? (seizures and injunctions, excl. tobacco) | Food/Cosmetics received 182 of 316 (57.6%), followed by Drugs (22.8%) and Veterinary (10.4%). |
+| 2 | Do product types with the most recalls get the most FDA actions? | No. Devices = 40.5% of recall events but 15.2% of actions; Food/Cosmetics got the most actions (38.8%). |
+| 3 | Do states with the most recalls get the most actions? | California leads both (12.6% / 16.7%). New Jersey, Massachusetts and Minnesota have a larger share of recalls than actions. |
+| 4 | Do facilities that ever had an action have more recalls? | Yes. 49.4% of facilities with an action had repeat recalls vs. 34.5% without one (median is 1 in both; data is skewed). |
+| 5 | Which product types get the harshest actions? | Food/Cosmetics received 57.6% of all seizures and injunctions. |
 
-### Part 2: Deeper Analysis (Q6–Q15)
+</details>
+
+<details>
+<summary><b>Part 2: Deeper Analysis (Q6–Q15)</b></summary>
 
 | # | Question | Finding |
 |---|----------|---------|
-| 6 | Are recalls becoming more dangerous over time? | Yes. Class I share rose from 10.4% (2013) to 19.6% (2025); Class I recalls rose from 380 to 412 while all recall events fell from 3,652 to 2,102. |
-| 7 | Which product types produce the most dangerous recalls? | Food/Cosmetics: 3,251 Class I recalls (61%). Veterinary has the highest Class I rate (47.5%) but few recalls; devices have a low rate (6.6%) but are second by count. |
-| 8 | What are the most common reasons for recalls? | Process failures: blood donor screening (12.3%), labeling errors (9.3%), failed testing (9.2%) and undeclared allergens (7.9%). |
-| 9 | Which product types does each reason come from, and what drives Class I recalls? | Each reason belongs mostly to one industry. Undeclared allergens, Salmonella and Listeria, all food problems, cause 58% of Class I recalls. |
-| 10 | How has FDA enforcement changed outside tobacco? | Warning letters fell from 779 (2011) to 500 (2025); seizures and injunctions from 48 to 2. |
-| 11 | Are facilities with more recalls more likely to receive an action? | Yes: 13.5% of facilities with 1 recall event vs. 46.4% with 100+. Still, 53.6% of the 28 facilities with 100+ recall events were never acted on. |
-| 12 | Are facilities with a Class I recall more likely to be disciplined? | Only slightly: 20.0% vs. 15.3% for facilities with only Class II/III recalls. |
-| 13 | What happens to recalls before and after a facility's first FDA action? | For 735 facilities, recalls rose from 0.16 to a peak of 0.54 per facility in the action year, then fell 63% within three years. |
-| 14 | Which recall problems does each state specialize in? | Labeling/allergen issues dominate in New York (49.4%), Florida (46.7%) and Texas (46.3%); device/software issues in Massachusetts (34.3%). |
-| 15 | Which states are under-enforced relative to their recall burden? | Virginia, Minnesota, Iowa and Georgia have many facilities with repeat recalls but only 13-16% received an FDA action. |
-
-**Recommendations:**
-1. Build a recall-based early-warning score that flags facilities with rising or Class I recalls, so action comes before recalls peak.
-2. Focus food inspections on allergen controls and pathogen testing (58% of Class I recalls).
-3. Increase oversight of medical device makers (40.5% of recall events, 15.2% of actions).
-4. Review high-recall facilities and states that have received few or no actions.
-
-## Data
-
-| Dataset | Coverage | Source |
-|---------|----------|--------|
-| FDA Recalls | 2012-2026 | [FDA Data Dashboard: Recalls](https://datadashboard.fda.gov/oii/cd/recalls.htm) |
-| FDA Compliance Actions | 2008-2026 | [FDA Data Dashboard: Compliance Actions](https://datadashboard.fda.gov/oii/cd/complianceactions.htm) |
-
-Both are U.S. government data in the public domain. Download them with the dashboard's **Export (CSV)** option (about 69 MB and 17 MB). The notebook is set up to load them from shared Google Drive links, so if those links stop working, download the CSVs from the dashboards and update the two `pd.read_csv(...)` paths near the top of the notebook.
-
-## Methods
-
-- **Cleaning:** replaced the FDA's `-` placeholder with real missing values, dropped 30 recall rows with no facility ID, labeled missing states as "No US State" (mostly foreign firms), converted dates, and added a `Year` column.
-- **Counting recall events:** the recall file has one product per row, and one recall event can cover many products. Every analysis counts each `Event ID` once (104,083 product rows become 37,623 recall events).
-- **Joining:** counted recall events and actions per facility and joined the two tables on FEI Number (the unique FDA facility ID). 1,724 facilities appear in both datasets.
-- **Skewed data:** recall counts per facility are highly skewed (median 1, max 317), so facility comparisons use medians, group sizes, the full distribution and the share of facilities with repeat recalls rather than averages alone.
-- **Recall reasons:** grouped the free-text reasons into 11 categories with keyword matching (36.8% remain "Other").
-- **Analysis:** exploratory analysis with 15 Matplotlib charts, including trend lines, bar charts, a heat map and a before/after timing analysis around each facility's first FDA action.
-
-## Limitations
-
-- Results show associations, not causes. Larger facilities make more products, so they may simply have more recalls and more actions.
-- Recall reasons are grouped by keywords from free text, so some events may be misclassified.
-- A specific recall cannot be linked to a specific action; the before/after analysis shows timing only.
-- 94% of compliance actions are tobacco-related, so most analyses exclude tobacco.
-- 2012 and 2026 are partial years (data runs June 2012 to September 2026).
-- Many recalls are voluntary, so a recall does not necessarily lead to an FDA action.
-- States are based on the firm's headquarters, which may not be where the product was made or sold.
-
-## Tech Stack
-
-Python, pandas, NumPy, Matplotlib (Google Colab / Jupyter)
-
-## How to Run
-
-```bash
-git clone https://github.com/filiphandjiski/fda-recall-compliance-analysis.git
-cd fda-recall-compliance-analysis
-pip install pandas numpy matplotlib jupyter
-jupyter notebook A06-FDA-Regulatory-Action-Analysis.ipynb
-```
-
-You can also open the notebook directly in Google Colab.
-
-## Next Steps
-
-- Add FDA inspection and facility-size data
-- Back-test the early-warning score on past years to see whether it would have flagged facilities before their recall spikes
-- Compare outcomes for facilities that did and did not receive FDA actions
-
-## License
-
-Analysis code is shared for portfolio purposes. The underlying data is public domain U.S. government data.
+| 6 | Are recalls becoming more dangerous? | Yes. Class I share rose from 10.4% to 19.6%; Class I recalls rose from 380 to 412 while total recalls fell. |
+| 7 | Which product types produce the most dangerous recalls? | Food/Cosmetics: 61% of Class I recalls. Veterinary has the highest Class I rate (47.5%) but few recalls. |
+| 8 | What
