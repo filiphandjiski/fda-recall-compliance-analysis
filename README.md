@@ -6,6 +6,8 @@
 
 Team project for **BA780: Introduction to Data Analytics**, MS Business Analytics, Boston University Questrom School of Business (Team A06, Fall 2026).
 
+**Team:** **Filip Handjiski**, Malak Taoujni, Fan-yu Chiu, Rislyn Raja, Aryan Bajaj
+
 ---
 
 ## The Business Problem
